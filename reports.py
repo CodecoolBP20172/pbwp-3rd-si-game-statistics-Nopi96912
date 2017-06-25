@@ -10,7 +10,7 @@ def decide(file_name, year):
         return False
 
 
-def get_latest(file_name):
+def get_latest(file_name='game_stat.txt'):
     data = []
     with open(file_name, 'r') as source_file:
         for line in source_file:
@@ -22,3 +22,17 @@ def get_latest(file_name):
         counter += 1
     latest = year.index(max(year))
     return str(data[latest][0])
+
+
+def count_by_genre(file_name, genre):
+    data = []
+    with open(file_name, 'r') as source_file:
+        for line in source_file:
+            data.append(line.strip().split('\t'))
+    genre_list = []
+    counter = 0
+    for item in data:
+        genre_list.append(data[counter][3])
+        counter += 1
+    genre_dict = dict((i, genre_list.count(i)) for i in genre_list)
+    return genre_dict.get(genre)
