@@ -36,5 +36,21 @@ def count_by_genre(file_name, genre):
 
 
 def get_line_number_by_title(file_name, title):
+    try:
+        data, temp, counter = list_from_file(file_name, 0, str)
+        return int(temp.index(title)) + 1
+    except ValueError:
+        return 'This game is not in the list'
+
+
+def sort_abc(file_name):
     data, temp, counter = list_from_file(file_name, 0, str)
-    return int(temp.index(title)) + 1
+    new_list = []
+    while temp:
+        minimum = min(temp)
+        for item in temp:
+            if item < minimum:
+                minimum = item
+        new_list.append(minimum)
+        temp.remove(minimum)
+    return new_list
