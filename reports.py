@@ -1,4 +1,4 @@
-def count_games(file_name='game_stat.txt'):
+def count_games(file_name):
     with open(file_name, 'r') as source_file:
         return sum(1 for line in source_file)
 
@@ -10,41 +10,31 @@ def decide(file_name, year):
         return False
 
 
-def list_from_file(file_name):
+def list_from_file(file_name, place, type):
     data = []
     with open(file_name, 'r') as source_file:
         for line in source_file:
             data.append(line.strip().split('\t'))
-    return data
-
-
-def get_latest(file_name='game_stat.txt'):
-    data = list_from_file(file_name)
-    year = []
+    temp = []
     counter = 0
     for item in data:
-        year.append(int(data[counter][2]))
+        temp.append(type(data[counter][place]))
         counter += 1
-    latest = year.index(max(year))
+    return data, temp, counter
+
+
+def get_latest(file_name):
+    data, temp, counter = list_from_file(file_name, 2, int)
+    latest = temp.index(max(temp))
     return str(data[latest][0])
 
 
 def count_by_genre(file_name, genre):
-    data = list_from_file(file_name)
-    genre_list = []
-    counter = 0
-    for item in data:
-        genre_list.append(data[counter][3])
-        counter += 1
-    genre_dict = dict((i, genre_list.count(i)) for i in genre_list)
+    data, temp, counter = list_from_file(file_name, 3, str)
+    genre_dict = dict((i, temp.count(i)) for i in temp)
     return genre_dict.get(genre)
 
 
 def get_line_number_by_title(file_name, title):
-    data = list_from_file(file_name)
-    title_list = []
-    counter = 0
-    for item in data:
-        title_list.append(data[counter][0])
-        counter += 1
-    return int(title_list.index(title)) + 1
+    data, temp, counter = list_from_file(file_name, 0, str)
+    return int(temp.index(title)) + 1
