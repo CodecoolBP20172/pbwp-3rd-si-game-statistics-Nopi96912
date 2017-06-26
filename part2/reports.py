@@ -1,4 +1,5 @@
 import math
+from collections import OrderedDict
 
 
 def list_from_file(file_name, place, type):
@@ -49,3 +50,21 @@ def get_game(file_name, title):
     new_list[1] = float(new_list[1])
     new_list[2] = int(new_list[2])
     return new_list
+
+
+def count_grouped_by_genre(file_name):
+    data, temp, counter = list_from_file(file_name, 3, str)
+    genre_dict = dict((i, temp.count(i)) for i in temp)
+    return genre_dict
+
+
+def get_date_ordered(file_name):
+    data, temp, counter = list_from_file(file_name, 2, int)
+    date = temp
+    data, temp, counter = list_from_file(file_name, 0, str)
+    title = temp
+    final_list = []
+    for year, title in sorted(list(zip(date, title)), key=lambda x: (-x[0], x[1].lower()), reverse=False):
+        final_list.append(title)
+    return final_list
+    
