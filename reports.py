@@ -63,14 +63,17 @@ def get_genres(file_name):
 
 
 def when_was_top_sold_fps(file_name):
-    data, temp, counter = list_from_file(file_name, 3, str)
-    date = []
-    sold = []
-    place = 0
-    for item in temp:
-        if item == 'First-person shooter':
-            date.append(int(data[place][2]))
-            sold.append(float(data[place][1]))
-        place += 1
-    top_sold = sold.index(max(sold))
-    return int(date[top_sold])
+    try:
+        data, temp, counter = list_from_file(file_name, 3, str)
+        date = []
+        sold = []
+        place = 0
+        for item in temp:
+            if item == 'First-person shooter':
+                date.append(int(data[place][2]))
+                sold.append(float(data[place][1]))
+            place += 1
+        top_sold = sold.index(max(sold))
+        return int(date[top_sold])
+    except BaseException:
+        raise ValueError
