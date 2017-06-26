@@ -39,8 +39,8 @@ def get_line_number_by_title(file_name, title):
     try:
         data, temp, counter = list_from_file(file_name, 0, str)
         return int(temp.index(title)) + 1
-    except ValueError:
-        return 'This game is not in the list'
+    except BaseException:
+        raise ValueError
 
 
 def sort_abc(file_name):
@@ -54,3 +54,23 @@ def sort_abc(file_name):
         new_list.append(minimum)
         temp.remove(minimum)
     return new_list
+
+
+def get_genres(file_name):
+    data, temp, counter = list_from_file(file_name, 3, str)
+    new_list = set(temp)
+    return sorted(new_list, key=str.lower)
+
+
+def when_was_top_sold_fps(file_name):
+    data, temp, counter = list_from_file(file_name, 3, str)
+    date = []
+    sold = []
+    place = 0
+    for item in temp:
+        if item == 'First-person shooter':
+            date.append(int(data[place][2]))
+            sold.append(float(data[place][1]))
+        place += 1
+    top_sold = sold.index(max(sold))
+    return int(date[top_sold])
